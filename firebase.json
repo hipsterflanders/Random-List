@@ -1,0 +1,7 @@
+{
+  "firebase": "RandomList",
+  "public": "public",
+  "database": {
+    "rules": "database.rules.json"
+  }
+}

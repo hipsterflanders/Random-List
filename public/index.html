@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random List</title>
+    <style>
+    body {
+        background-color: white;
+        font-family: sans-serif;
+        align-content: center;
+    }
+        
+    .container {
+        background: #DAE2E3;
+        width: 600px;
+        height: auto;
+    }
+        
+    textarea {
+        width:580px;
+        height: 200px;
+        min-height: 180px;
+        resize: both;
+        max-width: 600px
+    }
+        
+    #inputArea{
+        padding: 10px;
+        border: none; 
+    }
+        
+    #inputArea.hover{
+            width:560px;
+            height: 180px;
+            border:10px dashed grey;
+            color: white;
+        }
+
+    #outputArea{
+        background-color: white;
+        padding: 10px;
+    }
+        
+    h1{font-size: 3em; text-align: center;}
+        
+    .container {
+        //border: 2px solid black;
+        border-radius: 10px;
+        margin: auto;
+        padding: 10px;
+
+        display: block;
+        padding: 20px;
+    }
+        
+    button{
+        border: none;
+        color: black;
+        background-color: #919899;
+        padding: 10px;
+    }
+    </style>
+    
+    <script src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>
+    <script>
+        var holder;
+        var state;
+        $(document).ready(function() {
+            holder = document.getElementById('inputArea'),
+            state = document.getElementById('outputArea');
+                    if (typeof window.FileReader === 'undefined') {
+            state.className = 'fail';
+            } else {
+                state.className = 'success';
+               // state.innerHTML = 'File API & FileReader available';
+            }
+
+            holder.ondragover = function() {
+                this.className = 'hover';
+                return false;
+            };
+            holder.ondragend = function() {
+                this.className = '';
+                return false;
+            };
+            holder.ondrop = function(e) {
+                this.className = '';
+                e.preventDefault();
+
+                var file = e.dataTransfer.files[0],
+                    reader = new FileReader();
+                reader.onload = function(event) {
+                    console.log(event.target);
+                    holder.innerText = event.target.result;
+                };
+                console.log(file);
+                reader.readAsText(file);
+
+                return false;
+            };
+        });
+
+        function getRandomElement(){
+            var lines = $('#inputArea').val().split('\n');
+            var randomLineNumber = Math.floor(Math.random() * lines.length);
+            if(lines.length == 1){
+                $("#outputArea").text("Please enter multiple list items.");
+            }else{
+                $("#outputArea").text(lines[randomLineNumber]);
+            }  
+/*            for(var i = 0;i < lines.length;i++){
+                //code here using lines[i] which will give you each line
+            }*/
+        }
+    </script>
+</head>
+<body>
+
+<h1>Get a random item from a list</h1>
+
+    <div class="container">
+        <p>Type your list items line by line, or drag a .txt file with your list items in the text area.</p>
+        <textarea id="inputArea"></textarea>
+        <div>
+             <button type="button" onclick="getRandomElement()"> Get random line</button>
+             <p id="outputArea">...</p>
+        </div>
+
+    </div>
+
+</body>
+</html> 
